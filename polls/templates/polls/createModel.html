@@ -1,0 +1,7 @@
+<h1> Model Creation </h1>
+
+<form action="{% url 'polls:creation' %}" method="post">
+    {% csrf_token %}
+    <input type="text", name="modelName", id="modelName">
+<input type="submit" value="create">
+</form>
