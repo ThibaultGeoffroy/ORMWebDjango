@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+
+{% for key, type, value in key_type_value %}
+    {% if type == "text"%}
+        <input type="text" name="name" id={{ value }} value="{{ value }}"/>
+    {% endif %}
+    {% if type ==  "date" %}
+        <input type="text" name="name" id={{ value }} value="{{ value }}"/>
+    {% endif %}
+    {% if type == "list" %}
+        <input type="text" name="name" id={{ value }} value="{{ value }}"/>
+    {% endif %}
+{% endfor %}
+</html>

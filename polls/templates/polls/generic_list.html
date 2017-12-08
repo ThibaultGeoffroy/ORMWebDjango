@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="en">
+
+    <table style="width:100%">
+    <tr>
+        {% for key in keyset %}
+            <th>{{ key }}</th>
+        {% endfor %}
+    </tr>
+        {% for data in dataset %}
+            <tr>
+                {% for value in data %}
+                    <th > <a href="{%  url url_to_go data.0 %}">{{ value }}</a> </th>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+</html>

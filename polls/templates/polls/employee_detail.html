@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+ <form action="{% url 'polls:updateEmployee' employee.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" id="name" value="{{ employee.name }}"/>
+
+
+
+            {% comment %}{%  for choice in question.choice_set.all %}
+           <input type="radio" name ="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+            <label for="choice{{ forloop.counter }}">
+                {{ choice.choice_text }}
+            </label>
+            <br/>
+        {% endfor %}{% endcomment %}
+        <input type="submit" value="updateEmployee">
+    </form>
+
+</body>
+</html>

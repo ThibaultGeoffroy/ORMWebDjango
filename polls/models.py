@@ -7,6 +7,68 @@ from django.contrib import admin
 # Create your models here.
 
 
+class Company(models.Model):
+    name = models.CharField(max_length=200)
+    creation_date = models.DateField('date created')
+
+    def __str__(self):
+        return self.name
+
+    def get_type(self, field_name):
+        if field_name == "name":
+            return "text"
+        if field_name == "creation_date":
+            return "date"
+
+    def get_fields(self):
+        fields = list(self._meta.get_fields(include_parents=False))
+        fields.pop(0)
+        result = []
+        for value in fields:
+            result.append(value.attname)
+        return result
+
+    def get_field(self, field_name):
+        return self.__getattribute__(field_name)
+
+    @staticmethod
+    def  get_url_to_go():
+        return 'polls:companyDetail'
+
+
+class Employee(models.Model):
+    company = models.ForeignKey(Company, on_delete= models.CASCADE)
+    name = models.CharField(max_length=200)
+    birthday = models.DateField('birthday')
+    title = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+    def get_fields(self):
+        fields = list(self._meta.get_fields())
+        result = []
+        for value in fields:
+            result.append(value.attname)
+        return result
+
+    def get_field(self, field_name):
+        return self.__getattribute__(field_name)
+
+    def get_type(self, field_name):
+        if field_name == "company":
+            return "foreign_key"
+        if field_name == "name":
+            return "text"
+        if field_name == "birthday":
+            return "date"
+        if field_name == "title":
+            return "text"
+
+    @staticmethod
+    def get_url_to_go():
+        return 'polls:employeeDetail'
+
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
@@ -29,39 +91,3 @@ class Choice(models.Model):
         return self.choice_text
 
 
-class utils():
-
-    def create_model(name, fields=None, app_label='', module='', options=None, admin_opts=None):
-        """
-        Create specified model
-        """
-        class Meta:
-            pass
-
-        if app_label:
-            setattr(Meta, 'app_label', app_label)
-
-        # Update Meta with any options that were provided
-        if options is not None:
-            for key, value in options.iteritems():
-                setattr(Meta, key, value)
-
-        # Set up a dictionary to simulate declarations within a class
-        attrs = {'__module__': module, 'Meta': Meta}
-
-        # Add in any fields that were provided
-        if fields:
-            attrs.update(fields)
-
-        # Create the class, which automatically triggers ModelBase processing
-        model = type(name, (models.Model,), attrs)
-
-        # Create an Admin class if admin options were provided
-        if admin_opts is not None:
-            class Admin(admin.ModelAdmin):
-                pass
-            for key, value in admin_opts:
-                setattr(Admin, key, value)
-            admin.site.register(model, Admin)
-
-        return model

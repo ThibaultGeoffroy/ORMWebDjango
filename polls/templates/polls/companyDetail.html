@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <form action="{% url 'polls:updateCompany' company.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="name" id="name" value="{{ company.name }}"/>
+        <ul>
+            {% for employee in company.employee_set.all %}
+                 <li><a href="{%  url 'polls:employeeDetail' employee.id%}">{{ employee.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+
+            {% comment %}{%  for choice in question.choice_set.all %}
+           <input type="radio" name ="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}"/>
+            <label for="choice{{ forloop.counter }}">
+                {{ choice.choice_text }}
+            </label>
+            <br/>
+        {% endfor %}{% endcomment %}
+    <input type="submit" value="updateCompany"/>
+    <a href="{% url 'polls:deleteCompany' company.id %}">DELETE</a>
+
+</form>
+</body>
+</html>
